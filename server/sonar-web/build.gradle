@@ -31,7 +31,7 @@ node {
   download = true
 }
 
-ext.release = project.hasProperty('release')
+ext.release = project.hasProperty('release') && project.getProperty('release')
 yarn_run {
   if (release) { dependsOn unzipBranding }
   inputs.dir('scripts')
