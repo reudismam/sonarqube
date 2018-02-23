@@ -34,27 +34,31 @@ case "$RUN_ACTIVITY" in
           -Dcategory="$CATEGORY" \
           -Dorchestrator.configUrl="http://infra.internal.sonarsource.com/jenkins/orch-$DB_ENGINE.properties" \
           -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER
+          -DbuildNumber=$CI_BUILD_NUMBER \
+          -Drepox-api-key=$REPOX_API_KEY
     fi
     ;;
 
   run-it-released-plugins)
     ./run-integration-tests.sh "Plugins" "http://infra.internal.sonarsource.com/jenkins/orch-h2.properties" \
           -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER
+          -DbuildNumber=$CI_BUILD_NUMBER \
+          -Drepox-api-key=$REPOX_API_KEY
     ;;
 
   run-perf-tests)
       ./run-perf-tests.sh \
           -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER
+          -DbuildNumber=$CI_BUILD_NUMBER \
+          -Drepox-api-key=$REPOX_API_KEY
     ;;
 
   run-upgrade-tests-*)
     DB_ENGINE=$(sed "s/run-upgrade-tests-//g" <<< $RUN_ACTIVITY)
       ./run-upgrade-tests.sh "http://infra.internal.sonarsource.com/jenkins/orch-${DB_ENGINE}.properties" \
           -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER
+          -DbuildNumber=$CI_BUILD_NUMBER \
+          -Drepox-api-key=$REPOX_API_KEY
     ;;
 
   *)

@@ -87,6 +87,7 @@ task integrationTest(type: Test) {
   } else {
     systemProperty 'sonar.zipPath', project(':sonar-application').distsDir
   }
+  systemProperty 'repox-api-key', System.env.'REPOX_API_KEY'
 
   for (plugin in pluginsForITs) {
     dependsOn project(plugin).assemble
