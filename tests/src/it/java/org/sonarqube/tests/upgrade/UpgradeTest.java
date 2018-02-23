@@ -53,6 +53,8 @@ import static java.lang.Integer.parseInt;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static util.ItUtils.newOrchestratorBuilder;
+
 public class UpgradeTest {
 
   private static final String PROJECT_KEY = "org.apache.struts:struts-parent";
@@ -161,8 +163,7 @@ public class UpgradeTest {
   }
 
   private void startAndUpgradeDevServer() {
-    OrchestratorBuilder builder = Orchestrator.builderEnv()
-      .setZipFile(FileLocation.byWildcardMavenFilename(new File("../sonar-application/target"), "sonar*.zip").getFile())
+    OrchestratorBuilder builder = newOrchestratorBuilder()
       .setOrchestratorProperty("orchestrator.keepDatabase", "true")
       .setOrchestratorProperty("javaVersion", LATEST_JAVA_RELEASE)
       .addPlugin("java")
