@@ -7,7 +7,9 @@ shift
 # create DB
 mvn -B initialize \
   -pl :sonar-db-core \
-  -Dorchestrator.configUrl=$ORCHESTRATOR_CONFIG_URL
+  -Dorchestrator.configUrl=$ORCHESTRATOR_CONFIG_URL \
+  -Dwith-db-drivers \
+  -B -e -V $*
 
 # execute tests
 ./gradlew --no-daemon \
