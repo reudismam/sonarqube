@@ -36,7 +36,9 @@ dependencies {
     compile 'com.microsoft.sqlserver:mssql-jdbc'
     compile 'mysql:mysql-connector-java'
     compile 'org.postgresql:postgresql'
-    compile 'com.oracle.jdbc:ojdbc8'
+    if (project.hasProperty('repox')) {
+      compile 'com.oracle.jdbc:ojdbc8'
+    }
   }
 }
 

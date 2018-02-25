@@ -1,3 +1,7 @@
+ext {
+  repox = true
+}
+
 repositories {
   maven {
     url "https://repox.sonarsource.com/sonarsource"

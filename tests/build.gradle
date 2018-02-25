@@ -68,7 +68,7 @@ dependencies {
   integrationTestCompile 'com.microsoft.sqlserver:mssql-jdbc'
   integrationTestCompile 'mysql:mysql-connector-java'
   integrationTestCompile 'org.postgresql:postgresql'
-  if (System.getProperty('orchestrator.configUrl')) {
+  if (project.hasProperty('repox')) {
     integrationTestCompile 'com.oracle.jdbc:ojdbc8'
   }
 
