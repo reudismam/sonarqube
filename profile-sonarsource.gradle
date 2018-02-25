@@ -1,7 +1,3 @@
-ext {
-  release = false
-}
-
 repositories {
   maven {
     url "https://repox.sonarsource.com/sonarsource"
