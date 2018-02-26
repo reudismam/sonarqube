@@ -85,6 +85,8 @@ task integrationTest(type: Test) {
     dependsOn project(plugin).assemble
   }
 
+  jacoco.enabled = false
+
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
 
