@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-REPOX_ARGS="-Drepox-api-key=$REPOX_API_KEY -Dorchestrator.artifactory.repositories=sonarsource-public-releases,oracle-maven"
+REPOX_ARGS="-Dorchestrator.artifactory.apiKey=$REPOX_API_KEY -Dorchestrator.artifactory.repositories=sonarsource-public-releases,oracle-maven"
 TEST_ARGS="-PbuildProfile=sonarsource-qa -DbuildNumber=$CI_BUILD_NUMBER $REPOX_ARGS"
 
 case "$RUN_ACTIVITY" in
