@@ -64,7 +64,6 @@ BUILD)
 
   installJdk8
   installNode
-  fixBuildVersion
 
   # Minimal Gradle settings
   export GRADLE_OPTS="-Xmx512m"
