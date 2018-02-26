@@ -81,13 +81,6 @@ sonarqube {
 
 task integrationTest(type: Test) {
   description = 'Runs integration tests'  
-  
-  if (project.hasProperty('cix')) {
-    systemProperty 'sonar.zipPath', configurations.sqZip.resolve().first()
-  } else {
-    systemProperty 'sonar.zipPath', project(':sonar-application').distsDir
-  }
-  systemProperty 'repox-api-key', System.env.'REPOX_API_KEY'
 
   for (plugin in pluginsForITs) {
     dependsOn project(plugin).assemble
@@ -98,6 +91,17 @@ task integrationTest(type: Test) {
 
   if (System.getProperty('orchestrator.configUrl')) {
     systemProperty 'orchestrator.configUrl', System.getProperty('orchestrator.configUrl')
+  }
+  if (System.getProperty('repox-api-key')) {
+    systemProperty 'repox-api-key', System.getProperty('repox-api-key')
+  }
+  if (System.getProperty('orchestrator.artifactory.repositories')) {
+    systemProperty 'orchestrator.artifactory.repositories', System.getProperty('orchestrator.artifactory.repositories')
+  }
+  if (project.hasProperty('cix')) {
+    systemProperty 'sonar.zipPath', configurations.sqZip.resolve().first()
+  } else {
+    systemProperty 'sonar.zipPath', project(':sonar-application').distsDir
   }
 
   def category = System.getProperty('category')

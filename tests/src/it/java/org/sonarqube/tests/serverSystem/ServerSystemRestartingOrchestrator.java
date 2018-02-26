@@ -71,7 +71,7 @@ public class ServerSystemRestartingOrchestrator {
 
   @Test
   public void support_install_dir_with_whitespaces() throws Exception {
-    String dirName = "target/has space";
+    String dirName = "build/distributions/has space";
     FileUtils.deleteDirectory(new File(dirName));
     orchestrator = newOrchestratorBuilder()
       .setOrchestratorProperty("orchestrator.workspaceDir", dirName)

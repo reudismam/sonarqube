@@ -3,13 +3,15 @@
 
 set -euo pipefail
 
+REPOX_ARGS="-Drepox-api-key=$REPOX_API_KEY -Dorchestrator.artifactory.repositories=sonarsource-public-releases,oracle-maven"
+TEST_ARGS="-PbuildProfile=sonarsource-qa -DbuildNumber=$CI_BUILD_NUMBER $REPOX_ARGS"
+
 case "$RUN_ACTIVITY" in
 
   run-db-unit-tests-*)
     DB_ENGINE=$(sed "s/run-db-unit-tests-//g" <<< $RUN_ACTIVITY)
-    ./run-db-unit-tests.sh "http://infra.internal.sonarsource.com/jenkins/orch-${DB_ENGINE}.properties"  \
-        -PbuildProfile=sonarsource-qa \
-        -DbuildNumber=$CI_BUILD_NUMBER
+    ./run-db-unit-tests.sh "http://infra.internal.sonarsource.com/jenkins/orch-${DB_ENGINE}.properties" \
+        ${TEST_ARGS}
     ;;
 
   run-db-integration-tests-*)
@@ -33,32 +35,24 @@ case "$RUN_ACTIVITY" in
           :tests:integrationTest \
           -Dcategory="$CATEGORY" \
           -Dorchestrator.configUrl="http://infra.internal.sonarsource.com/jenkins/orch-$DB_ENGINE.properties" \
-          -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER \
-          -Drepox-api-key=$REPOX_API_KEY
+          ${TEST_ARGS}
     fi
     ;;
 
   run-it-released-plugins)
     ./run-integration-tests.sh "Plugins" "http://infra.internal.sonarsource.com/jenkins/orch-h2.properties" \
-          -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER \
-          -Drepox-api-key=$REPOX_API_KEY
+        ${TEST_ARGS}
     ;;
 
   run-perf-tests)
-      ./run-perf-tests.sh \
-          -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER \
-          -Drepox-api-key=$REPOX_API_KEY
+    ./run-perf-tests.sh \
+        ${TEST_ARGS}
     ;;
 
   run-upgrade-tests-*)
     DB_ENGINE=$(sed "s/run-upgrade-tests-//g" <<< $RUN_ACTIVITY)
       ./run-upgrade-tests.sh "http://infra.internal.sonarsource.com/jenkins/orch-${DB_ENGINE}.properties" \
-          -PbuildProfile=sonarsource-qa \
-          -DbuildNumber=$CI_BUILD_NUMBER \
-          -Drepox-api-key=$REPOX_API_KEY
+          ${TEST_ARGS}
     ;;
 
   *)

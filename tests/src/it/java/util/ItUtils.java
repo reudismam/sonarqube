@@ -109,9 +109,6 @@ public class ItUtils {
       // reduce memory for Elasticsearch
       .setServerProperty("sonar.search.javaOpts", "-Xms128m -Xmx128m")
       .setOrchestratorProperty("orchestrator.workspaceDir", "build/it")
-      .setOrchestratorProperty("orchestrator.artifactory.url", "https://repox.sonarsource.com")
-      .setOrchestratorProperty("orchestrator.artifactory.repositories", "sonarsource-qa")
-      .setOrchestratorProperty("orchestrator.artifactory.apiKey", System.getProperty("repox-api-key"))
       .setZipFile(zip);
   }
 
