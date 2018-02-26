@@ -30,60 +30,6 @@ function installNode {
 }
 
 #
-# Replaces the version defined in sources, usually x.y-SNAPSHOT,
-# by a version identifying the build.
-# The build version is composed of 4 fields, including the semantic version and
-# the build number provided by Travis.
-#
-# Exported variables:
-# - INITIAL_VERSION: version as defined in pom.xml
-# - BUILD_VERSION: version including the build number
-# - PROJECT_VERSION: target Maven version. The name of this variable is important because
-#   it's used by QA when extracting version from Artifactory build info.
-#
-# Example of SNAPSHOT
-# INITIAL_VERSION=6.3-SNAPSHOT
-# BUILD_VERSION=6.3.0.12345
-# PROJECT_VERSION=6.3.0.12345
-#
-# Example of RC
-# INITIAL_VERSION=6.3-RC1
-# BUILD_VERSION=6.3.0.12345
-# PROJECT_VERSION=6.3-RC1
-#
-# Example of GA
-# INITIAL_VERSION=6.3
-# BUILD_VERSION=6.3.0.12345
-# PROJECT_VERSION=6.3
-#
-function fixBuildVersion {
-  export INITIAL_VERSION=$(cat gradle.properties | grep version | awk -F= '{print $2}')
-
-  # remove suffix -SNAPSHOT or -RC
-  without_suffix=`echo $INITIAL_VERSION | sed "s/-.*//g"`
-
-  IFS=$'.'
-  fields_count=`echo $without_suffix | wc -w`
-  unset IFS
-  if [ $fields_count -lt 3 ]; then
-    export BUILD_VERSION="$without_suffix.0.$TRAVIS_BUILD_NUMBER"
-  else
-    export BUILD_VERSION="$without_suffix.$TRAVIS_BUILD_NUMBER"
-  fi
-
-  if [[ "${INITIAL_VERSION}" == *"-SNAPSHOT" ]]; then
-    # SNAPSHOT
-    export PROJECT_VERSION=$BUILD_VERSION
-  else
-    # not a SNAPSHOT: milestone, RC or GA
-    export PROJECT_VERSION=$INITIAL_VERSION
-  fi
-
-  echo "Build Version  : $BUILD_VERSION"
-  echo "Project Version: $PROJECT_VERSION"
-}
-
-#
 # Configure Maven settings and install some script utilities
 #
 function configureTravis {
@@ -122,6 +68,9 @@ BUILD)
 
   # Minimal Gradle settings
   export GRADLE_OPTS="-Xmx512m"
+
+  # Used by Next
+  export INITIAL_VERSION=$(cat gradle.properties | grep version | awk -F= '{print $2}')
 
   # Fetch all commit history so that SonarQube has exact blame information
   # for issue auto-assignment
