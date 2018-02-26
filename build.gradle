@@ -179,7 +179,7 @@ subprojects {
       }
       // TODO provided
       dependency 'xml-apis:xml-apis:1.4.01'
-      dependency 'org.sonarsource.orchestrator:sonar-orchestrator:3.16.0.1413'
+      dependency 'org.sonarsource.orchestrator:sonar-orchestrator:3.16.0.1420'
     }
   }
 

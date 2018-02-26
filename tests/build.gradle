@@ -48,7 +48,6 @@ def pluginsForITs = [
 ]
 
 dependencies {
-  sqZip "org.sonarsource.sonarqube:sonar-application:${version}@zip"
   integrationTestCompile 'org.sonarsource.orchestrator:sonar-orchestrator'
   integrationTestCompile project(':server:sonar-qa-util')
   integrationTestCompile project(':sonar-ws')
@@ -89,19 +88,11 @@ task integrationTest(type: Test) {
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
 
-  if (System.getProperty('orchestrator.configUrl')) {
-    systemProperty 'orchestrator.configUrl', System.getProperty('orchestrator.configUrl')
-  }
-  if (System.getProperty('repox-api-key')) {
-    systemProperty 'repox-api-key', System.getProperty('repox-api-key')
-  }
-  if (System.getProperty('orchestrator.artifactory.repositories')) {
-    systemProperty 'orchestrator.artifactory.repositories', System.getProperty('orchestrator.artifactory.repositories')
-  }
+  systemProperty 'orchestrator.configUrl', System.getProperty('orchestrator.configUrl')
+  systemProperty 'orchestrator.artifactory.apiKey', System.getProperty('orchestrator.artifactory.apiKey')
+  systemProperty 'orchestrator.artifactory.repositories', System.getProperty('orchestrator.artifactory.repositories')
   if (project.hasProperty('cix')) {
-    systemProperty 'sonar.zipPath', configurations.sqZip.resolve().first()
-  } else {
-    systemProperty 'sonar.zipPath', project(':sonar-application').distsDir
+    systemProperty 'sonar.runtimeVersion', version
   }
 
   def category = System.getProperty('category')

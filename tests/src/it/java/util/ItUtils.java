@@ -55,6 +55,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -98,18 +99,18 @@ public class ItUtils {
   }
 
   public static OrchestratorBuilder newOrchestratorBuilder() {
-    String zipPath = System.getProperty("sonar.zipPath");
-    File zip;
-    if (zipPath == null) {
-      zip = FileLocation.byWildcardMavenFilename(new File("../sonar-application/build/distributions"), "sonar-application-*.zip").getFile();
+    OrchestratorBuilder builder = Orchestrator.builderEnv();
+    String version = System.getProperty("sonar.runtimeVersion");
+    if (StringUtils.isEmpty(version)) {
+      File zip = FileLocation.byWildcardMavenFilename(new File("../sonar-application/build/distributions"), "sonar-application-*.zip").getFile();
+      builder.setZipFile(zip);
     } else {
-      zip = new File(zipPath);
-    }
-    return Orchestrator.builderEnv()
+      builder.setSonarVersion(version);
+    }    
+    return builder
       // reduce memory for Elasticsearch
       .setServerProperty("sonar.search.javaOpts", "-Xms128m -Xmx128m")
-      .setOrchestratorProperty("orchestrator.workspaceDir", "build/it")
-      .setZipFile(zip);
+      .setOrchestratorProperty("orchestrator.workspaceDir", "build/it");
   }
 
   public static FileLocation xooPlugin() {
