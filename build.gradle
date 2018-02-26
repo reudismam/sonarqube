@@ -200,6 +200,10 @@ subprojects {
     systemProperty 'java.awt.headless', true 
     maxHeapSize = "512m"
     jacoco.enabled = project.hasProperty('jacocoEnabled')
+    // log the test being executed: avoid Travis to kill the build when there is no log for 10 minutes
+    beforeTest { descriptor ->
+      logger.lifecycle("Running test: " + descriptor)
+    }
   }
 
   apply plugin: 'com.google.protobuf'
