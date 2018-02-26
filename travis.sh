@@ -134,7 +134,7 @@ BUILD)
   if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo 'Build and analyze master'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$TRAVIS_BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
         build sonarqube artifactoryPublish -PjacocoEnabled=true -Prelease=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -147,7 +147,7 @@ BUILD)
   elif [[ "$TRAVIS_BRANCH" == "branch-"* ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo 'Build release branch'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$TRAVIS_BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
         build sonarqube artifactoryPublish -PjacocoEnabled=true -Prelease=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -161,7 +161,7 @@ BUILD)
   elif [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
     echo 'Build and analyze internal pull request'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$TRAVIS_BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
         build sonarqube artifactoryPublish -PjacocoEnabled=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -179,7 +179,7 @@ BUILD)
   else
     echo 'Build feature branch or external pull request'
     ./gradlew  --no-daemon --console plain \
-        -DbuildNumber=$TRAVIS_BUILD_NUMBER -PbuildProfile=sonarsource -Prelease=true \
+        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource -Prelease=true \
         build artifactoryPublish
   fi
 
@@ -198,7 +198,7 @@ BUILD)
   #          at util.ItUtils.newOrchestratorBuilder(ItUtils.java:108)
   #          at org.sonarqube.tests.lite.LiteTest.<clinit>(LiteTest.java:49)
   #./gradlew --no-daemon --console plain -i \
-  #    :tests:integrationTest -Dcategory=Lite -DbuildNumber=$TRAVIS_BUILD_NUMBER
+  #    :tests:integrationTest -Dcategory=Lite -DbuildNumber=$BUILD_NUMBER
   ;;
 
 WEB_TESTS)
