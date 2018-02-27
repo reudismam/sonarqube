@@ -25,7 +25,7 @@ import com.sonar.orchestrator.Orchestrator;
 import com.sonar.orchestrator.OrchestratorBuilder;
 import com.sonar.orchestrator.build.MavenBuild;
 import com.sonar.orchestrator.container.Server;
-import com.sonar.orchestrator.locator.FileLocation;
+import com.sonar.orchestrator.locator.MavenLocation;
 import com.sonar.orchestrator.version.Version;
 import java.io.File;
 import java.io.IOException;
@@ -72,8 +72,8 @@ public class UpgradeTest {
   }
 
   @Test
-  public void test_upgrade_from_5_6_1() {
-    testDatabaseUpgrade(Version.create("5.6.1"));
+  public void test_upgrade_from_6_7() {
+    testDatabaseUpgrade(Version.create("6.7"));
   }
 
   private void testDatabaseUpgrade(Version fromVersion) {
@@ -154,8 +154,8 @@ public class UpgradeTest {
     OrchestratorBuilder builder = Orchestrator.builderEnv()
       .setSonarVersion(sqVersion.toString())
       .setOrchestratorProperty("orchestrator.keepDatabase", String.valueOf(keepDatabase))
-      .setOrchestratorProperty("javaVersion", "3.14")
-      .addPlugin("java")
+      .setOrchestratorProperty("orchestrator.workspaceDir", "build/it")
+      .addPlugin(MavenLocation.of("org.sonarsource.java", "sonar-java-plugin", "5.1.0.13090"))
       .setStartupLogWatcher(log -> log.contains("Process[web] is up"));
     orchestrator = builder.build();
     orchestrator.start();
