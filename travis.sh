@@ -65,9 +65,6 @@ BUILD)
   installJdk8
   installNode
 
-  # Minimal Gradle settings
-  export GRADLE_OPTS="-Xmx512m"
-
   # Used by Next
   export INITIAL_VERSION=$(cat gradle.properties | grep version | awk -F= '{print $2}')
 
