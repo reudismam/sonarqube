@@ -4,7 +4,7 @@
 set -euo pipefail
 
 REPOX_ARGS="-Dorchestrator.artifactory.apiKey=$REPOX_API_KEY -Dorchestrator.artifactory.repositories=sonarsource-qa"
-TEST_ARGS="-PbuildProfile=sonarsource-qa -DbuildNumber=$CI_BUILD_NUMBER $REPOX_ARGS"
+TEST_ARGS="-Pcix=true -DbuildNumber=$CI_BUILD_NUMBER $REPOX_ARGS"
 
 case "$RUN_ACTIVITY" in
 

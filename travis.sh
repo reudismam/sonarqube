@@ -82,7 +82,7 @@ BUILD)
   if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo 'Build and analyze master'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER \
         build sonarqube artifactoryPublish -PjacocoEnabled=true -Prelease=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -95,7 +95,7 @@ BUILD)
   elif [[ "$TRAVIS_BRANCH" == "branch-"* ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo 'Build release branch'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER \
         build sonarqube artifactoryPublish -PjacocoEnabled=true -Prelease=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -109,7 +109,7 @@ BUILD)
   elif [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
     echo 'Build and analyze internal pull request'
     ./gradlew --no-daemon --console plain \
-        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource \
+        -DbuildNumber=$BUILD_NUMBER \
         build sonarqube artifactoryPublish -PjacocoEnabled=true \
         -Dsonar.host.url=$SONAR_HOST_URL \
         -Dsonar.login=$SONAR_TOKEN \
@@ -127,7 +127,7 @@ BUILD)
   else
     echo 'Build feature branch or external pull request'
     ./gradlew  --no-daemon --console plain \
-        -DbuildNumber=$BUILD_NUMBER -PbuildProfile=sonarsource -Prelease=true \
+        -DbuildNumber=$BUILD_NUMBER -Prelease=true \
         build artifactoryPublish
   fi
 

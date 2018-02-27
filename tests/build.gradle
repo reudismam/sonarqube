@@ -67,9 +67,7 @@ dependencies {
   integrationTestCompile 'com.microsoft.sqlserver:mssql-jdbc'
   integrationTestCompile 'mysql:mysql-connector-java'
   integrationTestCompile 'org.postgresql:postgresql'
-  if (project.hasProperty('repox')) {
-    integrationTestCompile 'com.oracle.jdbc:ojdbc8'
-  }
+  integrationTestCompile 'com.oracle.jdbc:ojdbc8'
 
   //includeInTestResources "org.jboss.byteman:byteman:${bytemanVersion}"
 }
