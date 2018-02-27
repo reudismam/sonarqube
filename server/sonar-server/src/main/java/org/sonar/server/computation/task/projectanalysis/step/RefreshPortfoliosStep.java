@@ -45,15 +45,9 @@ public class RefreshPortfoliosStep implements ComputationStep {
 
   @Override
   public void execute() {
-    if (portfoliosHandler == null) {
-      System.out.println("Governance is not installed");
-      return;
+    if (portfoliosHandler != null) {
+      portfoliosHandler.processProject(analysisMetadata.getProject());
     }
-
-    //TODO Govenance is installed
-    System.out.println("Governance is installed");
-
-    portfoliosHandler.processProject(analysisMetadata.getProject());
   }
 
   @Override
